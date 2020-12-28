@@ -1,6 +1,6 @@
 
 name: pyvboxmanage
-version: 0.0.0
+version: 0.1.0
 author: Nicholas de Jong <me@nicholasdejong.com>
 description: Wrapper tool around VBoxManage that facilitates the orchestration of VBoxManage commands from a simple YAML configuration file that matches the input opts/args for VBoxManage.
 url: https://pyvboxmanage.readthedocs.io
