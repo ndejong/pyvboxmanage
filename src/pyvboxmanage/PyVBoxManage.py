@@ -5,7 +5,7 @@ from pyvboxmanage import __exec_timeout_default__ as EXEC_TIMEOUT_DEFAULT
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
 from pyvboxmanage.utils.config import load_config
 from pyvboxmanage.utils.binfile import vboxmanage_binary
-from pyvboxmanage.utils.exec import exec_command
+from pyvboxmanage.utils.exec_command import exec_command
 
 
 logger = logging.getLogger(__name__)

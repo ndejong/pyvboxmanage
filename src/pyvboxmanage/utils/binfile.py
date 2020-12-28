@@ -1,6 +1,6 @@
 
 import platform
-from pyvboxmanage.utils.exec import exec_command
+from pyvboxmanage.utils.exec_command import exec_command
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
 
 
