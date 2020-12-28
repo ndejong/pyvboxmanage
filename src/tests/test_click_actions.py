@@ -17,6 +17,5 @@ def test_dmm_help():
     result = runner.invoke(click.pyvboxmanage, '--help')
     assert 'Usage:' in result.output
     assert 'Options:' in result.output
-    assert 'Commands:' in result.output
     assert result.exit_code == 0
 
