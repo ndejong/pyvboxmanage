@@ -1,0 +1,3 @@
+
+class PyVBoxManageException(Exception):
+    pass
