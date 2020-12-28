@@ -38,9 +38,13 @@ setuptools.setup(
   tests_require = [],
   python_requires = '>=3.5.0,<4.0.0',
   data_files = [],
-  entry_points = {},
+  entry_points = {
+    'console_scripts': [
+      'pyvboxmanage = pyvboxmanage.cli.entrypoints:pyvboxmanage',
+    ]
+  },
   cmdclass = {},
-  keywords = [],
-  classifiers = [],
+  keywords = ['virtuabox', 'vbox', 'vboxmanage', 'devops'],
+  classifiers = ['Environment :: Console', 'Intended Audience :: Developers', 'Intended Audience :: Information Technology', 'Programming Language :: Python :: 3.5', 'Programming Language :: Python :: 3.6', 'Programming Language :: Python :: 3.7', 'Programming Language :: Python :: 3.8', 'Programming Language :: Python :: 3.9', 'License :: OSI Approved :: BSD License'],
   zip_safe = True,
 )

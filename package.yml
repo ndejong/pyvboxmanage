@@ -1,11 +1,38 @@
 
 name: pyvboxmanage
 version: 0.1.0
+license: BSD2
 author: Nicholas de Jong <me@nicholasdejong.com>
 description: Wrapper tool around VBoxManage that facilitates the orchestration of VBoxManage commands from a simple YAML configuration file that matches the input opts/args for VBoxManage.
 url: https://pyvboxmanage.readthedocs.io
-license: BSD2
+
+typed: false
+
+entrypoints:
+ console_scripts:
+  - pyvboxmanage = pyvboxmanage.cli.entrypoints:pyvboxmanage
+
+test-driver:
+  type: pytest
+
 requirements:
   - python ^3.5
   - click
   - pyyaml
+
+classifiers:
+  - "Environment :: Console"
+  - "Intended Audience :: Developers"
+  - "Intended Audience :: Information Technology"
+  - "Programming Language :: Python :: 3.5"
+  - "Programming Language :: Python :: 3.6"
+  - "Programming Language :: Python :: 3.7"
+  - "Programming Language :: Python :: 3.8"
+  - "Programming Language :: Python :: 3.9"
+  - "License :: OSI Approved :: BSD License"
+
+keywords:
+  - "virtuabox"
+  - "vbox"
+  - "vboxmanage"
+  - "devops"
