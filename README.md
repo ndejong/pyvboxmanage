@@ -50,7 +50,7 @@ DEBUG - Command line exec timeout 120
 INFO - Successfully executed command line "vboxmanage startvm Ubuntu-20.04-pipeline --type "gui""
 ```
 
-Plenty more command-line examples [available here](https://pyvboxmanage.readthedocs.io/en/latest/docs/command-examples/).
+Plenty more configuration examples [available here](https://pyvboxmanage.readthedocs.io/en/latest/docs/configuration-examples/).
 
 ## Project
 * Github - [github.com/ndejong/pyvboxmanage](https://github.com/ndejong/pyvboxmanage)

@@ -56,32 +56,17 @@ renderer:
       source: ../README.md
       directory: '..'
 
-#    - title: Command Line
-#      preamble:
-#        weight: 10
-#      name: command-line
-#      source: command-line.md
-#      children:
-#      - title: Usage
-#        preamble:
-#          weight: 10
-#        source: command-line-usage.md
-#      - title: Examples
-#        preamble:
-#          weight: 20
-#        source: command-line-examples.md
-#
-#    - title: Supported Multimeters
-#      preamble:
-#        weight: 15
-#      name: supported-multimeters
-#      source: supported-multimeters.md
-#
-#    - title: Python Module
-#      preamble:
-#        weight: 30
-#      contents:
-#        - digital_multimeter.DigitalMultimeter.*
+    - title: Configuration file
+      preamble:
+        weight: 10
+      name: configuration-file
+      source: configuration-file.md
+
+    - title: Configuration examples
+      preamble:
+        weight: 20
+      name: configuration-examples
+      source: configuration-examples.md
 
     - title: Project
       preamble:

@@ -1,0 +1,6 @@
+release_date: null
+changes:
+- type: docs
+  component: general
+  description: Adds configuration example docs
+  fixes: []
