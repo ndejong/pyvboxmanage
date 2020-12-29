@@ -1,0 +1,73 @@
+
+vars:
+
+  source_vmname: "Ubuntu-20.04-master"
+  target_vmname: "Ubuntu-20.04-pipeline"
+  target_basefolder: "/opt/virtual-machines"
+  target_groups: "/cicd"
+  target_bridgeadapter: "enp0s25"
+
+
+pyvboxmanage:
+
+#  - <command>:
+#    arguments|args: <list|string>
+#    options|opts: <dict>
+#    outputs|out: <list|string>
+#    returncodes|returncode: <listofint|int>
+#    triggers|trigger: <listofdict|dict>
+#    timeout: <int>
+
+  - showvminfo:
+    args:
+      - '{target_vmname}'
+    triggers:
+      - source: stdout
+        string: running
+        condition: not present
+    returncodes: [0,1]
+
+  - unregistervm:
+    args: '{target_vmname}'
+    opts:
+      delete: true
+    returncodes: [0,1]
+
+  - clonevm:
+    args: '{source_vmname}'
+    opts:
+      name: '{target_vmname}'
+      basefolder: '{target_basefolder}'
+      groups: '{target_groups}'
+      register: true
+      mode: "machine"
+    timeout: 180
+
+  - modifyvm:
+    args: '{target_vmname}'
+    opts:
+      nic1: "bridged"
+      nic2: "bridged"
+      nic3: "bridged"
+      nic4: "bridged"
+      bridgeadapter1: '{target_bridgeadapter}'
+      bridgeadapter2: '{target_bridgeadapter}'
+      bridgeadapter3: '{target_bridgeadapter}'
+      bridgeadapter4: '{target_bridgeadapter}'
+      nictype1: "82543GC"
+      nictype2: "82543GC"
+      nictype3: "82543GC"
+      nictype4: "82543GC"
+      macaddress1: "08002722E901"
+      macaddress2: "08002722E902"
+      macaddress3: "08002722E903"
+      macaddress4: "08002722E904"
+      cableconnected1: "on"
+      cableconnected2: "on"
+      cableconnected3: "on"
+      cableconnected4: "on"
+
+  - startvm:
+    args: '{target_vmname}'
+    opts:
+       type: "gui"

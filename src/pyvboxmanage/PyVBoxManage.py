@@ -14,13 +14,16 @@ logger = logging.getLogger(__name__)
 class PyVBoxManage:
 
     config = None
+    dry_run = None
     binfile = None
 
-    def __init__(self, configuration_file):
+    def __init__(self, configuration_file, dry_run=False):
         self.config = load_config(configuration_file)
         logger.debug('Loaded configuration_file {}'.format(configuration_file))
 
-        self.binfile = vboxmanage_binary()
+        self.dry_run = dry_run
+
+        self.binfile = vboxmanage_binary(dry_run=dry_run)
         logger.debug('VBoxManage binary available as {}'.format(self.binfile))
 
     def main(self):
@@ -88,7 +91,11 @@ class PyVBoxManage:
         else:
             exec_timeout = EXEC_TIMEOUT_DEFAULT
         logger.debug('Command line exec timeout {}'.format(exec_timeout))
-        stdout, stderr, returncode = exec_command(command_line, timeout=exec_timeout)
+
+        if self.dry_run is True:
+            stdout, stderr, returncode = b'', b'', 0
+        else:
+            stdout, stderr, returncode = exec_command(command_line, timeout=exec_timeout)
 
         if item['returncodes']:
             if returncode in item['returncodes']:
