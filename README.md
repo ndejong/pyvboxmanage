@@ -17,6 +17,7 @@ Variables, output redirection, exit-triggers and returncode-exceptions are avail
 * Output redirection to STDOUT, STDERR, filename
 * Exit triggers on string match within STDOUT or STDERR content (useful to prevent cloning/clobbering instance that is already running )
 * Permit exit returncodes other than 0 in cases where they may occur (eg configuring a `--delete` action when the instance does not yet exist) 
+* Dry mode to test configurations before running them
 * Manage timeouts to prevent excessively long running VBoxManage commands (default 120 seconds, useful to prevent stalled VBoxManage tasks)
 * Documentation https://pyvboxmanage.readthedocs.io
 
