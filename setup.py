@@ -22,7 +22,7 @@ requirements = [
 
 setuptools.setup(
   name = 'pyvboxmanage',
-  version = '0.2.0',
+  version = '0.2.1',
   author = 'Nicholas de Jong',
   author_email = 'me@nicholasdejong.com',
   description = 'Wrapper tool around VBoxManage that facilitates the orchestration of VBoxManage commands from a simple YAML configuration file that matches the input opts/args for VBoxManage.',
