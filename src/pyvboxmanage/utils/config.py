@@ -2,6 +2,7 @@
 import os
 import yaml
 import logging
+from pyvboxmanage.utils.dict_merge import dict_merge
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
 
 
@@ -12,7 +13,7 @@ def load_configuration_files(configuration_files):
 
     config = {}
     for configuration_file in configuration_files:
-        config = {**config, **load_configuration_file(configuration_file)}
+        config = dict_merge(config, load_configuration_file(configuration_file))
 
     config = replace_config_vars(config)
     return normalize_config(config)

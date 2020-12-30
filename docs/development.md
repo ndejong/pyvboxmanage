@@ -9,6 +9,9 @@ Package release and management tools - [documentation](https://github.com/Niklas
 # Update package files
 $ shut pkg update
 
+# Test the package
+$ shut pkg test
+
 # Create a staged changelog entry for a fix/feature
 $ shut changelog --add fix --stage --message "Fixes bug"
 $ shut changelog --add feature --stage --message "Initial version"
