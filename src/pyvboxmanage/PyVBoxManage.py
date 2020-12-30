@@ -3,8 +3,8 @@ import sys
 import logging
 from pyvboxmanage import __exec_timeout_default__ as EXEC_TIMEOUT_DEFAULT
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
-from pyvboxmanage.utils.config import load_config
-from pyvboxmanage.utils.binfile import vboxmanage_binary
+from pyvboxmanage.utils.config import load_configuration_files
+from pyvboxmanage.utils.bin_file import vboxmanage_binary
 from pyvboxmanage.utils.exec_command import exec_command
 
 
@@ -15,16 +15,12 @@ class PyVBoxManage:
 
     config = None
     dry_run = None
-    binfile = None
+    bin_file = None
 
-    def __init__(self, configuration_file, dry_run=False):
-        self.config = load_config(configuration_file)
-        logger.debug('Loaded configuration_file {}'.format(configuration_file))
-
+    def __init__(self, configuration_files, dry_run=False):
         self.dry_run = dry_run
-
-        self.binfile = vboxmanage_binary(dry_run=dry_run)
-        logger.debug('VBoxManage binary available as {}'.format(self.binfile))
+        self.config = load_configuration_files(configuration_files)
+        self.bin_file = vboxmanage_binary(dry_run=dry_run)
 
     def main(self):
         for item in self.config:
@@ -114,7 +110,7 @@ class PyVBoxManage:
         return stdout, stderr, returncode
 
     def render_command(self, command):
-        command_line = '{} {}'.format(self.binfile, command['command'])
+        command_line = '{} {}'.format(self.bin_file, command['command'])
 
         if type(command['arguments']) is list:
             for item_argument in command['arguments']:

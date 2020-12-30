@@ -1,0 +1,8 @@
+
+vars:
+
+  source_vmname: "test02sourcevname"
+  target_vmname: "test02targetvname"
+  target_basefolder: "/test02targetbasefolder"
+  target_groups: "/test02targetgroups"
+  target_bridgeadapter: "test02targetbridgeadapter"

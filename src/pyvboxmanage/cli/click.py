@@ -8,12 +8,12 @@ from pyvboxmanage.PyVBoxManage import PyVBoxManage
 
 
 @click.command(no_args_is_help=True)
-@click.argument('configuration_file', required=True)
+@click.argument('configuration_files', required=True, nargs=-1)
 @click.option('-v', '--verbose', is_flag=True, help='Verbose logging messages (debug level).')
 @click.option('-q', '--quiet', is_flag=True, help='Quiet mode, with priority over --verbose')
 @click.option('-d', '--dry-run', is_flag=True, help='Dry run mode, output the commands that would execute only.')
 @click.version_option(VERSION)
-def pyvboxmanage(configuration_file, verbose, quiet, dry_run):
+def pyvboxmanage(configuration_files, verbose, quiet, dry_run):
     """
     PyVBoxManage is a wrapper tool around VBoxManage that facilitates the orchestration of VBoxManage commands from a
     simple YAML configuration file that matches the input opts/args for VBoxManage.  This makes it possible to
@@ -37,4 +37,4 @@ def pyvboxmanage(configuration_file, verbose, quiet, dry_run):
 
     logger.debug('{} v{}'.format(NAME, VERSION))
 
-    PyVBoxManage(configuration_file=configuration_file, dry_run=dry_run).main()
+    PyVBoxManage(configuration_files=configuration_files, dry_run=dry_run).main()

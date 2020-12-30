@@ -1,22 +1,24 @@
 
 import os
 import yaml
+import logging
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
 
 
-def parse_yaml_content(content):
-    try:
-        config = yaml.safe_load(content)
-    except yaml.parser.ParserError as e:
-        raise PyVBoxManageException('Configuration file format error', e)
-
-    if type(config) is not dict:
-        raise PyVBoxManageException('Unexpected configuration file format')
-
-    return config
+logger = logging.getLogger(__name__)
 
 
-def load_config(configuration_file):
+def load_configuration_files(configuration_files):
+
+    config = {}
+    for configuration_file in configuration_files:
+        config = {**config, **load_configuration_file(configuration_file)}
+
+    config = replace_config_vars(config)
+    return normalize_config(config)
+
+
+def load_configuration_file(configuration_file):
 
     if not os.path.exists(configuration_file):
         raise PyVBoxManageException('Configuration file not found', configuration_file)
@@ -25,6 +27,14 @@ def load_config(configuration_file):
         content = f.read()
 
     config = parse_yaml_content(content)
+    logger.debug('Loaded configuration file {}'.format(configuration_file))
+
+    return config
+
+
+def replace_config_vars(config):
+
+    content = yaml.dump(config)
 
     if 'vars' in config.keys():
         if type(config['vars']) is not dict:
@@ -43,16 +53,28 @@ def load_config(configuration_file):
 
         config = parse_yaml_content(content)
 
+    return config
+
+
+def parse_yaml_content(content):
+    try:
+        config = yaml.safe_load(content)
+    except yaml.parser.ParserError as e:
+        raise PyVBoxManageException('Configuration file format error', e)
+
+    if type(config) is not dict:
+        raise PyVBoxManageException('Unexpected configuration file format')
+
+    return config
+
+
+def normalize_config(config):
+
     if 'pyvboxmanage' not in config.keys():
         raise PyVBoxManageException('Unexpected configuration file format, missing "pyvboxmanage" root')
 
     if type(config['pyvboxmanage']) is not list:
         raise PyVBoxManageException('Unexpected configuration file format, "pyvboxmanage" content is not a list')
-
-    return normalize_config(config)
-
-
-def normalize_config(config):
 
     items = []
 

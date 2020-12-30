@@ -1,22 +1,14 @@
 
 vars:
 
-  source_vmname: "Ubuntu-20.04-master"
-  target_vmname: "Ubuntu-20.04-pipeline"
-  target_basefolder: "/opt/virtual-machines"
-  target_groups: "/cicd"
-  target_bridgeadapter: "enp0s25"
+  source_vmname: "test01sourcevname"
+  target_vmname: "test01targetvname"
+  target_basefolder: "/test01targetbasefolder"
+  target_groups: "/test01targetgroups"
+  target_bridgeadapter: "test01targetbridgeadapter"
 
 
 pyvboxmanage:
-
-#  - <command>:
-#    arguments|args: <list|string>
-#    options|opts: <dict>
-#    outputs|out: <list|string>
-#    returncodes|returncode: <listofint|int>
-#    triggers|trigger: <listofdict|dict>
-#    timeout: <int>
 
   - showvminfo:
     args:
