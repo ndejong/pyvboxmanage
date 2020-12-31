@@ -1,0 +1,6 @@
+release_date: null
+changes:
+- type: fix
+  component: general
+  description: Improves config merge by using .extend() on list types
+  fixes: []
