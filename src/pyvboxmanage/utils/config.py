@@ -4,6 +4,7 @@ import yaml
 import logging
 from pyvboxmanage.utils.dict_merge import dict_merge
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
+from pyvboxmanage import __config_import_recursion_limit__
 
 
 logger = logging.getLogger(__name__)
@@ -19,16 +20,25 @@ def load_configuration_files(configuration_files):
     return normalize_config(config)
 
 
-def load_configuration_file(configuration_file):
+def load_configuration_file(configuration_file, __level=0):
 
     if not os.path.exists(configuration_file):
         raise PyVBoxManageException('Configuration file not found', configuration_file)
+
+    if __level >= __config_import_recursion_limit__:
+        raise PyVBoxManageException('Configuration recursion limit reached, likely circular import references', __level)
 
     with open(configuration_file) as f:
         content = f.read()
 
     config = parse_yaml_content(content)
     logger.debug('Loaded configuration file {}'.format(configuration_file))
+
+    if 'imports' in config.keys() and type(config['imports']) is list:
+        for configuration_import_file in config['imports']:
+            if not os.path.exists(configuration_import_file):
+                configuration_import_file = os.path.join(os.path.dirname(configuration_file), configuration_import_file)
+            config = dict_merge(config, load_configuration_file(configuration_import_file, __level+1))
 
     return config
 

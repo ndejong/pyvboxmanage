@@ -2,6 +2,18 @@
 
 ## Example01
 ```yaml
+vars:
+  # Define some variables used in the "pyvboxmanage" sections from the imported configuration files.
+  target_vmname: "Ubuntu-20.04-master"
+  target_macaddress_prefix: "0800281901"
+
+imports:
+  - 'Ubuntu-20.04-base-configuration.yml'
+  - 'Ubuntu-20.04-cicd-configuration.yml'
+```
+
+## Example02
+```yaml
 
 vars:
   # Define some variables used in the "pyvboxmanage" section below.
