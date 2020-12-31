@@ -2,7 +2,7 @@
 import os
 import yaml
 import logging
-from pyvboxmanage.utils.dict_merge import dict_merge
+from pyvboxmanage.utils.merge import merge
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
 from pyvboxmanage import __config_import_recursion_limit__
 
@@ -14,7 +14,7 @@ def load_configuration_files(configuration_files):
 
     config = {}
     for configuration_file in configuration_files:
-        config = dict_merge(config, load_configuration_file(configuration_file))
+        config = merge(config, load_configuration_file(configuration_file))
 
     config = replace_config_vars(config)
     return normalize_config(config)
@@ -38,7 +38,7 @@ def load_configuration_file(configuration_file, __level=0):
         for configuration_import_file in config['imports']:
             if not os.path.exists(configuration_import_file):
                 configuration_import_file = os.path.join(os.path.dirname(configuration_file), configuration_import_file)
-            config = dict_merge(config, load_configuration_file(configuration_import_file, __level+1))
+            config = merge(config, load_configuration_file(configuration_import_file, __level+1))
 
     return config
 
