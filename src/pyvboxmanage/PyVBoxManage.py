@@ -16,10 +16,11 @@ class PyVBoxManage:
     config = None
     dry_run = None
     bin_file = None
+    variable_settings = None
 
-    def __init__(self, configuration_files, dry_run=False):
+    def __init__(self, configuration_files, variable_settings=None, dry_run=False):
         self.dry_run = dry_run
-        self.config = load_configuration_files(configuration_files)
+        self.config = load_configuration_files(configuration_files, variable_overrides=variable_settings)
         self.bin_file = vboxmanage_binary(dry_run=dry_run)
 
     def main(self):

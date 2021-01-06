@@ -19,6 +19,7 @@ Variables, output redirection, exit-triggers and returncode-exceptions are avail
 * Permit exit returncodes other than 0 in cases where they may occur (eg configuring a `--delete` action when the instance does not yet exist) 
 * Dry mode to test configurations before running them
 * Manage timeouts to prevent excessively long running VBoxManage commands (default 120 seconds, useful to prevent stalled VBoxManage tasks)
+* Variable overrides through command line args are possible
 * Documentation https://pyvboxmanage.readthedocs.io
 
 ## Installation
@@ -27,28 +28,29 @@ user@computer:~$ pip install pyvboxmanage
 ```
 
 ## Command Line Usage
-Run a pyvboxmanage example configuration with `--verbose` logging output
+Run a pyvboxmanage example configuration with `--verbose` logging output and override the variable 
+`target_vmname` with a new value using the `--setting` argument.
 ```shell
-user@computer:~$ pyvboxmanage -v examples/example01.yml 
-DEBUG - pyvboxmanage v0.1.0
-DEBUG - Loaded configuration_file examples/example01.yml
-DEBUG - VBoxManage binary available as vboxmanage
-DEBUG - Rendered command line: vboxmanage showvminfo Ubuntu-20.04-pipeline
+user@computer:~$ pyvboxmanage --verbose examples/example01.yml --setting target_vmname=MyNewName  
+DEBUG - pyvboxmanage v0.4.0
+DEBUG - Loaded configuration file examples/example01.yml
+DEBUG - Dry mode VBoxManage binary set to vboxmanage
+DEBUG - Rendered command line: vboxmanage showvminfo MyNewName
 DEBUG - Command line exec timeout 120
-INFO - Successfully executed command line "vboxmanage showvminfo Ubuntu-20.04-pipeline"
+INFO - Successfully executed command line "vboxmanage showvminfo MyNewName"
 DEBUG - Trigger string "running" is not present
-DEBUG - Rendered command line: vboxmanage unregistervm Ubuntu-20.04-pipeline --delete
+DEBUG - Rendered command line: vboxmanage unregistervm MyNewName --delete
 DEBUG - Command line exec timeout 120
-INFO - Successfully executed command line "vboxmanage unregistervm Ubuntu-20.04-pipeline --delete"
-DEBUG - Rendered command line: vboxmanage clonevm Ubuntu-20.04-master --name "Ubuntu-20.04-pipeline" --basefolder "/opt/virtual-machines" --groups "/cicd" --register --mode "machine"
+INFO - Successfully executed command line "vboxmanage unregistervm MyNewName --delete"
+DEBUG - Rendered command line: vboxmanage clonevm Ubuntu-20.04-master --basefolder "/opt/virtual-machines" --groups "/cicd" --mode "machine" --name "MyNewName" --register
 DEBUG - Command line exec timeout 180
-INFO - Successfully executed command line "vboxmanage clonevm Ubuntu-20.04-master --name "Ubuntu-20.04-pipeline" --basefolder "/opt/virtual-machines" --groups "/cicd" --register --mode "machine""
-DEBUG - Rendered command line: vboxmanage modifyvm Ubuntu-20.04-pipeline --nic1 "bridged" --nic2 "bridged" --nic3 "bridged" --nic4 "bridged" --bridgeadapter1 "enp0s25" --bridgeadapter2 "enp0s25" --bridgeadapter3 "enp0s25" --bridgeadapter4 "enp0s25" --nictype1 "82543GC" --nictype2 "82543GC" --nictype3 "82543GC" --nictype4 "82543GC" --macaddress1 "08002722E901" --macaddress2 "08002722E902" --macaddress3 "08002722E903" --macaddress4 "08002722E904" --cableconnected1 "on" --cableconnected2 "on" --cableconnected3 "on" --cableconnected4 "on"
+INFO - Successfully executed command line "vboxmanage clonevm Ubuntu-20.04-master --basefolder "/opt/virtual-machines" --groups "/cicd" --mode "machine" --name "MyNewName" --register"
+DEBUG - Rendered command line: vboxmanage modifyvm MyNewName --bridgeadapter1 "enp0s25" --bridgeadapter2 "enp0s25" --bridgeadapter3 "enp0s25" --bridgeadapter4 "enp0s25" --cableconnected1 "on" --cableconnected2 "on" --cableconnected3 "on" --cableconnected4 "on" --macaddress1 "08002722E901" --macaddress2 "08002722E902" --macaddress3 "08002722E903" --macaddress4 "08002722E904" --nic1 "bridged" --nic2 "bridged" --nic3 "bridged" --nic4 "bridged" --nictype1 "82543GC" --nictype2 "82543GC" --nictype3 "82543GC" --nictype4 "82543GC"
 DEBUG - Command line exec timeout 120
-INFO - Successfully executed command line "vboxmanage modifyvm Ubuntu-20.04-pipeline --nic1 "bridged" --nic2 "bridged" --nic3 "bridged" --nic4 "bridged" --bridgeadapter1 "enp0s25" --bridgeadapter2 "enp0s25" --bridgeadapter3 "enp0s25" --bridgeadapter4 "enp0s25" --nictype1 "82543GC" --nictype2 "82543GC" --nictype3 "82543GC" --nictype4 "82543GC" --macaddress1 "08002722E901" --macaddress2 "08002722E902" --macaddress3 "08002722E903" --macaddress4 "08002722E904" --cableconnected1 "on" --cableconnected2 "on" --cableconnected3 "on" --cableconnected4 "on""
-DEBUG - Rendered command line: vboxmanage startvm Ubuntu-20.04-pipeline --type "gui"
+INFO - Successfully executed command line "vboxmanage modifyvm MyNewName --bridgeadapter1 "enp0s25" --bridgeadapter2 "enp0s25" --bridgeadapter3 "enp0s25" --bridgeadapter4 "enp0s25" --cableconnected1 "on" --cableconnected2 "on" --cableconnected3 "on" --cableconnected4 "on" --macaddress1 "08002722E901" --macaddress2 "08002722E902" --macaddress3 "08002722E903" --macaddress4 "08002722E904" --nic1 "bridged" --nic2 "bridged" --nic3 "bridged" --nic4 "bridged" --nictype1 "82543GC" --nictype2 "82543GC" --nictype3 "82543GC" --nictype4 "82543GC""
+DEBUG - Rendered command line: vboxmanage startvm MyNewName --type "gui"
 DEBUG - Command line exec timeout 120
-INFO - Successfully executed command line "vboxmanage startvm Ubuntu-20.04-pipeline --type "gui""
+INFO - Successfully executed command line "vboxmanage startvm MyNewName --type "gui""
 ```
 
 Plenty more configuration examples [available here](https://pyvboxmanage.readthedocs.io/en/latest/docs/configuration-examples/).

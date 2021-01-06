@@ -1,22 +1,26 @@
 
 import os
+import re
 import yaml
 import logging
 from pyvboxmanage.utils.merge import merge
 from pyvboxmanage.exceptions.PyVBoxManageException import PyVBoxManageException
+
 from pyvboxmanage import __config_import_recursion_limit__
+from pyvboxmanage import __variable_tag_open__
+from pyvboxmanage import __variable_tag_close__
 
 
 logger = logging.getLogger(__name__)
 
 
-def load_configuration_files(configuration_files):
+def load_configuration_files(configuration_files, variable_overrides=None):
 
     config = {}
     for configuration_file in configuration_files:
         config = merge(config, load_configuration_file(configuration_file))
 
-    config = replace_config_vars(config)
+    config = replace_config_vars(config, variable_overrides)
     return normalize_config(config)
 
 
@@ -43,28 +47,32 @@ def load_configuration_file(configuration_file, __level=0):
     return config
 
 
-def replace_config_vars(config):
+def replace_config_vars(config, variable_overrides=None):
+
+    if variable_overrides is None:
+        variable_overrides = {}
 
     content = yaml.dump(config)
 
     if 'vars' in config.keys():
         if type(config['vars']) is not dict:
             raise PyVBoxManageException('Unexpected "vars" configuration', config['vars'])
+        variables = merge(config['vars'], variable_overrides)
+    else:
+        variables = variable_overrides
 
-        format_kwargs = {}
-        for key, value in config['vars'].items():
-            tag = '{' + key + '}'
-            if tag in content:
-                format_kwargs[key] = value
+    for key, value in variables.items():
+        expression = "{}\s*{}\s*{}".\
+            format(re.escape(__variable_tag_open__), re.escape(key), re.escape(__variable_tag_close__))
+        content = re.sub(expression, value, content)
 
-        try:
-            content = content.format(**format_kwargs)
-        except KeyError as e:
-            raise PyVBoxManageException('Missing variable setting in configuration, is it set?', e)
+    expression = "{}.+{}".format(re.escape(__variable_tag_open__), re.escape(__variable_tag_close__))
+    matches = re.findall(expression, content, re.MULTILINE)
+    if matches:
+        for m in matches:
+            logger.warning('Suspected unset variable: {}'.format(m))
 
-        config = parse_yaml_content(content)
-
-    return config
+    return parse_yaml_content(content)
 
 
 def parse_yaml_content(content):

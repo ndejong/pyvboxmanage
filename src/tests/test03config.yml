@@ -1,0 +1,15 @@
+
+vars:
+  source_value01: "stderr"
+
+
+pyvboxmanage:
+
+  - showvminfo:
+    args:
+      - '{unset_variable01}'
+    triggers:
+      - source: "{source_value01}"
+        string: '{ unset_variable02  }'
+        condition: not present
+    returncodes: [0,1]
