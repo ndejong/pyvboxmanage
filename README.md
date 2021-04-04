@@ -62,4 +62,4 @@ Plenty more configuration examples [available here](https://pyvboxmanage.readthe
 * ReadTheDocs - [pyvboxmanage.readthedocs.io](https://pyvboxmanage.readthedocs.io)
 
 ---
-Copyright &copy; 2020 Nicholas de Jong
+Copyright &copy; 2021 Nicholas de Jong
