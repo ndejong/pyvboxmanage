@@ -64,7 +64,7 @@ def replace_config_vars(config, variable_overrides=None):
     for key, value in variables.items():
         expression = "{}\s*{}\s*{}".\
             format(re.escape(__variable_tag_open__), re.escape(key), re.escape(__variable_tag_close__))
-        content = re.sub(expression, value, content)
+        content = re.sub(expression, str(value), content)
 
     expression = "{}.+{}".format(re.escape(__variable_tag_open__), re.escape(__variable_tag_close__))
     matches = re.findall(expression, content, re.MULTILINE)
