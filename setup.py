@@ -16,7 +16,7 @@ else:
   long_description = None
 
 requirements = [
-  'click',
+  'click >=7.1.0',
   'pyyaml',
 ]
 
